@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Empresas - Ciclo3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none
+    }
+</style>
+</head>
+<body>
+<div class="container-fluid">
+    <h3>Lista de Empresas</h3>
+    <!-- Dibujamos la tabla -->
+    <br><Table class="table table-striped">
+        <tr>
+          <th>ID</th>
+            <th>Nombre</th>
+            <th>Direccion</th>
+            <th>Telefono</th>
+            <th>NIT</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+        <tr th:each="empresa: ${emplist}">
+            <td th:text="${empresa.id}"></td>
+            <td th:text="${empresa.nombre}"></td>
+            <td th:text="${empresa.direccion}"></td>
+            <td th:text="${empresa.telefono}"></td>
+            <td th:text="${empresa.NIT}"></td>
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarEmpresa/{id}(id=${empresa.id})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarEmpresa{id}(id=${empresa.id})}">Eliminar</a></button></td>
+        </tr>
+    </Table>
+    <!-- vasos a crear un boton que sirva para agregar nuevas empresas -->
+    <button type="button" class="btn btn-info"><a th:href="@{/AgregarEmpresa}">Agregar Nueva Empresa</a></button>
+
+</div>
+<script th:inline="javascript">
+  window.onload= function(){
+  var msg = [[${mensaje}]];
+  if (msg == "saveOK){
+  command = toastr["sucess"]("Empresa creada con Exito!")
+  }
+  else if (msg == "updateOK"){
+     command = toastr["sucess"]("Empresa Actualizada con Exito!")
+  }
+   else if (msg == "deleteOK"){
+     command = toastr["error"]("Empresa eliminada con Exito!")
+  }
+   else if (msg == "deleteError"){
+     command = toastr["error"]("Empresa no se pudo eliminar!")
+  }
+  toastr.options = {
+"positionClass": "toast-top-right",
+"showDuration":"300",
+"showMethod":"fadeIn",
+"hideMethod":"fadeOut",
+}
+  }
+</script>
+
+</body>
+</html>
