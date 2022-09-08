@@ -8,7 +8,7 @@ import javax.persistence.*;
 //base de datos tipo objeto virtual
 public class Empresa {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String nombre;
     private String direccion;

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Empleados - Ciclo3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none
+    }
+</style>
+</head>
+<body>
+<div class="container-fluid">
+    <h3>Lista de Empleados</h3>
+    <!-- Dibujamos la tabla -->
+    <br><Table class="table table-striped">
+        <tr>
+          <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Empresas</th>
+            <th>Rol</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+
+    <!--Llenamos la tabla dibujada-->
+    <!-- En nuestro controller, creamos en view Empleados un modelo con atributo llamado emplelist donde esta guardada la lista de empleados-->
+        <tr th:each="empleado: ${emplelist}">
+            <td th:text="${empleado.id}"></td>
+            <td th:text="${empleado.nombre}"></td>
+            <td th:text="${empleado.correo}"></td>
+            <td th:text="${empresa.empresa.nombre}"></td>
+            <td th:if="${empleado.rol== ´1´}">Administrativo</td>
+            <td th:if="${empleado.rol== 2}">Operativo</td>
+            <td th:if="${empleado.rol== 3}">Mantenimiento</td>
+            <td th:if="${empleado.rol== 4}">Ambiental</td>
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarEmpleado/{id}(id=${empleado.id})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarEmpleado{id}(id=${empleado.id})}">Eliminar</a></button></td>
+        </tr>
+    </Table>
+    <!-- vasos a crear un boton que sirva para agregar nuevos empleados -->
+    <button type="button" class="btn btn-info"><a th:href="@{/AgregarEmpleado}">Agregar Nuevo Empleado</a></button>
+
+</div>
+<script th:inline="javascript">
+  window.onload= function(){
+  var msg = [[${mensaje}]];
+  if (msg == "saveOK){
+  command = toastr["sucess"]("Empleado registrado con Exito!")
+  }
+  else if (msg == "updateOK"){
+     command = toastr["sucess"]("Empleado Actualizado con Exito!")
+  }
+   else if (msg == "deleteOK"){
+     command = toastr["error"]("Registro de empleado eliminado con Exito!")
+  }
+   else if (msg == "deleteError"){
+     command = toastr["error"]("Registro de empleado no se pudo eliminar!")
+  }
+  toastr.options = {
+"positionClass": "toast-top-right",
+"showDuration":"300",
+"showMethod":"fadeIn",
+"hideMethod":"fadeOut",
+}
+  }
+</script>
+
+</body>
+</html>
